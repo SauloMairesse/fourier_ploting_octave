@@ -1,0 +1,63 @@
+%Valor da frequencia angular
+w = 2*pi/3;
+%Valor inicial da série de fourier,
+A0 = 7.18;
+%Número de harmônicas geradas
+h = 50;
+%Valor inicial do loop
+n=1;
+y = 0;
+%intervalo de tempo para gerar no gráfico.
+t = -6:.01:6;
+
+fourier = zeros(size(t));
+fourier(n,:) = y;
+
+for n=1:h;
+%Cada Ana, Anb, Anc representam uma determinada integral
+% em que, o somatório dos seus respectivos valores é o valor de An em função de n.
+AnaNum = 18*cos(w*n)+18
+AnaDiv = pi*((4*n^2) - 9)
+Ana = -AnaNum/AnaDiv;
+
+AnbNum = 18*pi*n*sin(2*w*n) + 27*cos(2*w*n) - 27*cos(w*n)
+AnbDiv = (2*pi*n)^2 
+Anb = AnbNum/AnbDiv
+
+AncNum =  81*sin(2*pi*n) - 54*pi*n*cos(2*pi*n) + ((-18*(pi*n)^2) - 81)*sin(2*w*n)
+AncDiv = 4*(pi*n)^3
+Anc = AncNum/AncDiv
+
+An = (2/3)*(Ana + Anb + Anc)
+
+%De forma análoga, constroi-se Bn
+% onde cada valor de Bna, Bnb, Bnc é uma das integrais definidas anteriormente.
+BnaNum = 18*sin(w*n)
+BnaDiv = pi*((4*n^2)-9)
+Bna = -BnaNum/BnaDiv;
+
+BnbNum = 27*sin(2*w*n) - 18*pi*n*cos(2*w*n) -27*sin(w*n)
+BnbDiv = 4*(n*pi)^2
+Bnb = BnbNum/BnbDiv;
+
+BncNum = 54*pi*n*sin(2*pi*n) + 81*cos(2*pi*n) + (-(18*(pi*n)^2) -81)*cos(2*w*n)
+BncDiv = 4*(n*pi)^3
+Bnc = -BncNum/BncDiv;
+
+Bn = (2/3)*( Bna + Bnb + Bnc)
+
+%Somatório de Fourier em função de n.
+y = y + An*cos(n*w*t) + Bn*sin(n*w*t);
+
+fourier(n,:) = (A0/2) + y;
+plot(t,fourier)
+pause (.07);
+end
+% Plotar Gráfico final:
+pause(1)
+hold off
+grid on
+plot(t,fourier(h,:))
+
+
+
